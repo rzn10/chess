@@ -27,10 +27,6 @@ public class Piece {
 		this.brd = brd;
 	}
 
-	private static final String[] PIECE_MOVEMENTS = {
-		"upLeft", "upRight", "downLeft", "downRight"
-	};
-
 	//converts integer cordinates to string cordinates
 	String intCordToString(int x, int y){
 		char ch1= (char) ((char)x+64);
@@ -145,33 +141,312 @@ public class Piece {
 							&& isInMovesArray(this.x,this.y,x,y,rep) ){
 						flag = true;
 					} else {
-						System.out.println("A piece is in the path!");
+						System.out.print("Error attempting to move!");
+						System.out.println(" A piece is in the path OR it is not a valid move!");
 					}
 				} else if ( (this.x < x) && (this.y < y)){	//up right diagonal case
 					if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "upRight") 
 							&& isInMovesArray(this.x,this.y,x,y,rep) ){
 						flag = true;
 					} else {
-						System.out.println("A piece is in the path!");
+						System.out.print("Error attempting to move!");
+						System.out.println(" A piece is in the path OR it is not a valid move!");
 					}					
 				} else if( (this.x > x) && (this.y > y) ){		//down left diagonal case
 					if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "downLeft") 
 							&& isInMovesArray(this.x,this.y,x,y,rep) ){
 						flag = true;
 					} else {
-						System.out.println("A piece is in the path!");
+						System.out.print("Error attempting to move!");
+						System.out.println(" A piece is in the path OR it is not a valid move!");
 					}
 				} else if ( (this.x < x) && (this.y > y)){	//down right diagonal case
 					if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "downRight") 
 							&& isInMovesArray(this.x,this.y,x,y,rep) ){
 						flag = true;
 					} else {
-						System.out.println("A piece is in the path!");
+						System.out.print("Error attempting to move!");
+						System.out.println(" A piece is in the path OR it is not a valid move!");
 					}					
 				}
 				
 			break;
 			case "bB":
+				if( (this.x > x) && (this.y < y) ){		//up left diagonal case
+					if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "upLeft")
+							&& isInMovesArray(this.x,this.y,x,y,rep) ){
+						flag = true;
+					} else {
+						System.out.print("Error attempting to move!");
+						System.out.println(" A piece is in the path OR it is not a valid move!");
+					}
+				} else if ( (this.x < x) && (this.y < y)){	//up right diagonal case
+					if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "upRight") 
+							&& isInMovesArray(this.x,this.y,x,y,rep) ){
+						flag = true;
+					} else {
+						System.out.print("Error attempting to move!");
+						System.out.println(" A piece is in the path OR it is not a valid move!");
+					}					
+				} else if( (this.x > x) && (this.y > y) ){		//down left diagonal case
+					if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "downLeft") 
+							&& isInMovesArray(this.x,this.y,x,y,rep) ){
+						flag = true;
+					} else {
+						System.out.print("Error attempting to move!");
+						System.out.println(" A piece is in the path OR it is not a valid move!");
+					}
+				} else if ( (this.x < x) && (this.y > y)){	//down right diagonal case
+					if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "downRight") 
+							&& isInMovesArray(this.x,this.y,x,y,rep) ){
+						flag = true;
+					} else {
+						System.out.print("Error attempting to move!");
+						System.out.println(" A piece is in the path OR it is not a valid move!");
+					}					
+				}
+			
+			//CASE: WHITE AND BLACK QUEEN
+			//can move horizontally, vertically, and diagonally across the map
+			//    as long as no pieces are in its path
+				case "wQ":
+					if( this.y < y && this.x == x ){		//up  case
+						if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "up")
+								&& isInMovesArray(this.x,this.y,x,y,rep) ){
+							flag = true;
+						} else {
+							System.out.print("Error attempting to move!");
+							System.out.println(" A piece is in the path OR it is not a valid move!");
+						}
+					}
+
+					if( this.y > y && this.x == x ){		//down  case
+						if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "down")
+								&& isInMovesArray(this.x,this.y,x,y,rep) ){
+							flag = true;
+						} else {
+							System.out.print("Error attempting to move!");
+							System.out.println(" A piece is in the path OR it is not a valid move!");
+						}
+					}
+
+					if( this.x > x && this.y == y){		//left  case
+						if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "left")
+								&& isInMovesArray(this.x,this.y,x,y,rep) ){
+							flag = true;
+						} else {
+							System.out.print("Error attempting to move!");
+							System.out.println(" A piece is in the path OR it is not a valid move!");
+						}
+					}
+
+					if( this.x < x && this.y == y){		//right  case
+						if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "right")
+								&& isInMovesArray(this.x,this.y,x,y,rep) ){
+							flag = true;
+						} else {
+							System.out.print("Error attempting to move!");
+							System.out.println(" A piece is in the path OR it is not a valid move!");
+						}
+					}
+
+					if( (this.x > x) && (this.y < y) ){		//up left diagonal case
+						if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "upLeft")
+								&& isInMovesArray(this.x,this.y,x,y,rep) ){
+							flag = true;
+						} else {
+							System.out.print("Error attempting to move!");
+							System.out.println(" A piece is in the path OR it is not a valid move!");
+						}
+					} else if ( (this.x < x) && (this.y < y)){	//up right diagonal case
+						if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "upRight") 
+								&& isInMovesArray(this.x,this.y,x,y,rep) ){
+							flag = true;
+						} else {
+							System.out.print("Error attempting to move!");
+							System.out.println(" A piece is in the path OR it is not a valid move!");
+						}					
+					} else if( (this.x > x) && (this.y > y) ){		//down left diagonal case
+						if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "downLeft") 
+								&& isInMovesArray(this.x,this.y,x,y,rep) ){
+							flag = true;
+						} else {
+							System.out.print("Error attempting to move!");
+							System.out.println(" A piece is in the path OR it is not a valid move!");
+						}
+					} else if ( (this.x < x) && (this.y > y)){	//down right diagonal case
+						if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "downRight") 
+								&& isInMovesArray(this.x,this.y,x,y,rep) ){
+							flag = true;
+						} else {
+							System.out.print("Error attempting to move!");
+							System.out.println(" A piece is in the path OR it is not a valid move!");
+						}					
+					}					
+								
+				break;
+
+				case "bQ":
+					if( this.y < y && this.x == x ){		//up  case
+						if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "up")
+								&& isInMovesArray(this.x,this.y,x,y,rep) ){
+							flag = true;
+						} else {
+							System.out.print("Error attempting to move!");
+							System.out.println(" A piece is in the path OR it is not a valid move!");
+						}
+					}
+
+					if( this.y > y && this.x == x ){		//down  case
+						if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "down")
+								&& isInMovesArray(this.x,this.y,x,y,rep) ){
+							flag = true;
+						} else {
+							System.out.print("Error attempting to move!");
+							System.out.println(" A piece is in the path OR it is not a valid move!");
+						}
+					}
+
+					if( this.x > x && this.y == y){		//left  case
+						if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "left")
+								&& isInMovesArray(this.x,this.y,x,y,rep) ){
+							flag = true;
+						} else {
+							System.out.print("Error attempting to move!");
+							System.out.println(" A piece is in the path OR it is not a valid move!");
+						}
+					}
+
+					if( this.x < x && this.y == y){		//right  case
+						if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "right")
+								&& isInMovesArray(this.x,this.y,x,y,rep) ){
+							flag = true;
+						} else {
+							System.out.print("Error attempting to move!");
+							System.out.println(" A piece is in the path OR it is not a valid move!");
+						}
+					}
+
+					if( (this.x > x) && (this.y < y) ){		//up left diagonal case
+						if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "upLeft")
+								&& isInMovesArray(this.x,this.y,x,y,rep) ){
+							flag = true;
+						} else {
+							System.out.print("Error attempting to move!");
+							System.out.println(" A piece is in the path OR it is not a valid move!");
+						}
+					} else if ( (this.x < x) && (this.y < y)){	//up right diagonal case
+						if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "upRight") 
+								&& isInMovesArray(this.x,this.y,x,y,rep) ){
+							flag = true;
+						} else {
+							System.out.print("Error attempting to move!");
+							System.out.println(" A piece is in the path OR it is not a valid move!");
+						}					
+					} else if( (this.x > x) && (this.y > y) ){		//down left diagonal case
+						if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "downLeft") 
+								&& isInMovesArray(this.x,this.y,x,y,rep) ){
+							flag = true;
+						} else {
+							System.out.print("Error attempting to move!");
+							System.out.println(" A piece is in the path OR it is not a valid move!");
+						}
+					} else if ( (this.x < x) && (this.y > y)){	//down right diagonal case
+						if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "downRight") 
+								&& isInMovesArray(this.x,this.y,x,y,rep) ){
+							flag = true;
+						} else {
+							System.out.print("Error attempting to move!");
+							System.out.println(" A piece is in the path OR it is not a valid move!");
+						}					
+					}
+				break;
+
+				//BLACK AND WHITE ROCK
+				//Can move up,left,down, and right across the map
+				//as long as no piece is in the path
+				case "wR":
+					if( this.y < y && this.x == x ){		//up  case
+						if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "up")
+								&& isInMovesArray(this.x,this.y,x,y,rep) ){
+							flag = true;
+						} else {
+							System.out.print("Error attempting to move!");
+							System.out.println(" A piece is in the path OR it is not a valid move!");
+						}
+					}
+
+					if( this.y > y && this.x == x ){		//down  case
+						if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "down")
+								&& isInMovesArray(this.x,this.y,x,y,rep) ){
+							flag = true;
+						} else {
+							System.out.print("Error attempting to move!");
+							System.out.println(" A piece is in the path OR it is not a valid move!");
+						}
+					}
+
+					if( this.x > x && this.y == y){		//left  case
+						if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "left")
+								&& isInMovesArray(this.x,this.y,x,y,rep) ){
+							flag = true;
+						} else {
+							System.out.print("Error attempting to move!");
+							System.out.println(" A piece is in the path OR it is not a valid move!");
+						}
+					}
+
+					if( this.x < x && this.y == y){		//right  case
+						if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "right")
+								&& isInMovesArray(this.x,this.y,x,y,rep) ){
+							flag = true;
+						} else {
+							System.out.print("Error attempting to move!");
+							System.out.println(" A piece is in the path OR it is not a valid move!");
+						}
+					}
+				break;
+				case "bR":
+					if( this.y < y && this.x == x ){		//up  case
+						if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "up")
+								&& isInMovesArray(this.x,this.y,x,y,rep) ){
+							flag = true;
+						} else {
+							System.out.print("Error attempting to move!");
+							System.out.println(" A piece is in the path OR it is not a valid move!");
+						}
+					}
+
+					if( this.y > y && this.x == x ){		//down  case
+						if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "down")
+								&& isInMovesArray(this.x,this.y,x,y,rep) ){
+							flag = true;
+						} else {
+							System.out.print("Error attempting to move!");
+							System.out.println(" A piece is in the path OR it is not a valid move!");
+						}
+					}
+
+					if( this.x > x && this.y == y){		//left  case
+						if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "left")
+								&& isInMovesArray(this.x,this.y,x,y,rep) ){
+							flag = true;
+						} else {
+							System.out.print("Error attempting to move!");
+							System.out.println(" A piece is in the path OR it is not a valid move!");
+						}
+					}
+
+					if( this.x < x && this.y == y){		//right  case
+						if( !pieceIsInPath(this.x,this.y,x,y,this.rep, "right")
+								&& isInMovesArray(this.x,this.y,x,y,rep) ){
+							flag = true;
+						} else {
+							System.out.print("Error attempting to move!");
+							System.out.println(" A piece is in the path OR it is not a valid move!");
+						}
+					}
+				break;
 			default:
 		}
 
@@ -182,10 +457,10 @@ public class Piece {
 	//recieves the cordinates the piece is in, the cordinates it wants to move to
 	// 	and the string representation of the piece type
 	//description: creates an array of possible moves
-	//retrusn true if the destination cordinate is in the created array, false otherwise
+	//returns true if the destination cordinate is in the created array, false otherwise
 	private boolean isInMovesArray(int x2, int y2, int x3, int y3, String rep2) {
 		boolean flag = false;
-		int [][] intArr = new int[8][2];  //each spot on the x-axis can have two possible y-axis moves.
+		int [][] bishopMovesArr = new int[8][2];  //each spot on the x-axis can have two possible y-axis moves.	
 
 		switch( rep2 ){
 			case "wB" :
@@ -194,9 +469,9 @@ public class Piece {
 			//   and each map represents the two y-axis posssibilities for each spot on the x-axis
 				for( int i = 0; i < 8; i++ ){
 					for( int j = 0; j < 2; j++ ){
-						intArr[i][0] = y2+i+1;
-						intArr[i][1] = y2-i-1;
-						System.out.println( i+x2+1 +":" + intArr[i][0] + "," + intArr[i][1]);
+						bishopMovesArr[i][0] = y2+i+1;
+						bishopMovesArr[i][1] = y2-i-1;
+						//System.out.println( i+x2+1 +":" + bishopMovesArr[i][0] + "," + bishopMovesArr[i][1]);
 					}
 				}
 				//map now contains possible y-cordinates for the 8 x-axis spots to the right of x2
@@ -205,12 +480,14 @@ public class Piece {
 				//if a match is made, then the piece is allowed to move there
 				for( int i = 0; i < 8; i++ ){
 					for( int j = 0; j < 2; j++ ){
-						if( x3 == i+x2+1 && ((y3 == intArr[i][0]) || (y3 == intArr[i][1])) ){
+						if( x3 == i+x2+1 && ((y3 == bishopMovesArr[i][0]) || (y3 == bishopMovesArr[i][1])) ){
 							flag = true;
-							System.out.println("Cordinate was found in: isInMovesArray()!!!");
-						} else if( x3 == x2-i-1 && ((y3 == intArr[i][0]) || (y3 == intArr[i][1])) ){
+							//System.out.println("Cordinate was found in: isInMovesArray()!!!");
+						} else if( x3 == x2-i-1 && ((y3 == bishopMovesArr[i][0]) || (y3 == bishopMovesArr[i][1])) ){
 							flag = true;
-							System.out.println("Cordinate was found in: isInMovesArray()!!!");
+							//System.out.println("Cordinate was found in: isInMovesArray()!!!");
+						} else {
+							//System.out.println("Cordinate was NOT found in: isInMovesArray()");
 						}
 					}
 				}
@@ -219,7 +496,134 @@ public class Piece {
 
 			break;
 			case "bB" :
+			//each spot on the x-axis can have two possible y-axis moves.
+			//so each iteration of mapArr represents each x-axis
+			//   and each map represents the two y-axis posssibilities for each spot on the x-axis
+				for( int i = 0; i < 8; i++ ){
+					for( int j = 0; j < 2; j++ ){
+						bishopMovesArr[i][0] = y2+i+1;
+						bishopMovesArr[i][1] = y2-i-1;
+						//System.out.println( i+x2+1 +":" + bishopMovesArr[i][0] + "," + bishopMovesArr[i][1]);
+					}
+				}
+				//map now contains possible y-cordinates for the 8 x-axis spots to the right of x2
+
+				//check each y-cordinate to the right and left of x2
+				//if a match is made, then the piece is allowed to move there
+				for( int i = 0; i < 8; i++ ){
+					for( int j = 0; j < 2; j++ ){
+						if( x3 == i+x2+1 && ((y3 == bishopMovesArr[i][0]) || (y3 == bishopMovesArr[i][1])) ){
+							flag = true;
+							//System.out.println("Cordinate was found in: isInMovesArray()!!!");
+						} else if( x3 == x2-i-1 && ((y3 == bishopMovesArr[i][0]) || (y3 == bishopMovesArr[i][1])) ){
+							flag = true;
+							//System.out.println("Cordinate was found in: isInMovesArray()!!!");
+						} else {
+							//System.out.println("Cordinate was NOT found in: isInMovesArray()");
+						}
+					}
+				}
 			break;
+			//CASE WHITE AND BLACK QUEEN
+			//combines bishop, rock, and king moves
+			case "wQ":
+				//check in rockMovesArr if x3,y3 is a valid move
+				if( (x3 == x2 && y3 != y2) || (x3 != x2 && y3 == y2) ){
+					flag = true;
+					//System.out.println("Cordinate was found in: isInMovesArray()!!!");
+				} else {
+					//System.out.println("Cordinate was NOT found in: isInMovesArray()");
+				}
+
+			//each spot on the x-axis can have two possible y-axis moves.
+			//so each iteration of mapArr represents each x-axis
+			//   and each map represents the two y-axis posssibilities for each spot on the x-axis
+				for( int i = 0; i < 8; i++ ){
+					for( int j = 0; j < 2; j++ ){
+						bishopMovesArr[i][0] = y2+i+1;
+						bishopMovesArr[i][1] = y2-i-1;
+						//System.out.println( i+x2+1 +":" + bishopMovesArr[i][0] + "," + bishopMovesArr[i][1]);
+					}
+				}
+				//map now contains possible y-cordinates for the 8 x-axis spots to the right of x2
+
+				//check each y-cordinate to the right and left of x2
+				//if a match is made, then the piece is allowed to move there
+				for( int i = 0; i < 8; i++ ){
+					for( int j = 0; j < 2; j++ ){
+						if( x3 == i+x2+1 && ((y3 == bishopMovesArr[i][0]) || (y3 == bishopMovesArr[i][1])) ){
+							flag = true;
+							//System.out.println("Cordinate was found in: isInMovesArray()!!!");
+						} else if( x3 == x2-i-1 && ((y3 == bishopMovesArr[i][0]) || (y3 == bishopMovesArr[i][1])) ){
+							flag = true;
+							//System.out.println("Cordinate was found in: isInMovesArray()!!!");
+						} else {
+							//System.out.println("Cordinate was NOT found in: isInMovesArray()");
+						}
+					}
+				}
+			break;
+
+			case "bQ":
+				//check in rockMovesArr if x3,y3 is a valid move
+				if( (x3 == x2 && y3 != y2) || (x3 != x2 && y3 == y2) ){
+					flag = true;
+					//System.out.println("Cordinate was found in: isInMovesArray()!!!");
+				} else {
+					//System.out.println("Cordinate was NOT found in: isInMovesArray()");
+				}
+
+			//each spot on the x-axis can have two possible y-axis moves.
+			//so each iteration of mapArr represents each x-axis
+			//   and each map represents the two y-axis posssibilities for each spot on the x-axis
+				for( int i = 0; i < 8; i++ ){
+					for( int j = 0; j < 2; j++ ){
+						bishopMovesArr[i][0] = y2+i+1;
+						bishopMovesArr[i][1] = y2-i-1;
+						//System.out.println( i+x2+1 +":" + bishopMovesArr[i][0] + "," + bishopMovesArr[i][1]);
+					}
+				}
+				//map now contains possible y-cordinates for the 8 x-axis spots to the right of x2
+
+				//check each y-cordinate to the right and left of x2
+				//if a match is made, then the piece is allowed to move there
+				for( int i = 0; i < 8; i++ ){
+					for( int j = 0; j < 2; j++ ){
+						if( x3 == i+x2+1 && ((y3 == bishopMovesArr[i][0]) || (y3 == bishopMovesArr[i][1])) ){
+							flag = true;
+							//System.out.println("Cordinate was found in: isInMovesArray()!!!");
+						} else if( x3 == x2-i-1 && ((y3 == bishopMovesArr[i][0]) || (y3 == bishopMovesArr[i][1])) ){
+							flag = true;
+							//System.out.println("Cordinate was found in: isInMovesArray()!!!");
+						} else {
+							//System.out.println("Cordinate was NOT found in: isInMovesArray()");
+						}
+					}
+				}
+
+			break;
+
+			case "wR":
+				//check in rockMovesArr if x3,y3 is a valid move
+				if( (x3 == x2 && y3 != y2) || (x3 != x2 && y3 == y2) ){
+					flag = true;
+					//System.out.println("Cordinate was found in: isInMovesArray()!!!");
+				} else {
+					//System.out.println("Cordinate was NOT found in: isInMovesArray()");
+				}
+			break;
+
+			case "bR":
+				//check in rockMovesArr if x3,y3 is a valid move
+				if( (x3 == x2 && y3 != y2) || (x3 != x2 && y3 == y2) ){
+					flag = true;
+					//System.out.println("Cordinate was found in: isInMovesArray()!!!");
+				} else {
+					//System.out.println("Cordinate was NOT found in: isInMovesArray()");
+				}
+			break;
+
+
 			default:
 				System.out.print("isInMovesArray error! string rep2 not recognized.");
 		}
@@ -240,7 +644,7 @@ public class Piece {
 		int yCpy = y3;
 		xCpy += 1;
 		yCpy -= 1;
-		if( rep2 == "wB" || rep2 == "bB" ){	
+		if( rep2 == "wB" || rep2 == "bB" ){		//WHITE AND BLACK BISHOP
 			if( mvmnt == "upLeft"){  //check case for moving up left		
 				while( xCpy != x2 && yCpy > 0){ //loop through each diagonal space,between points,checking if a piece is there
 					tmp = brd.findPiece(intCordToString(xCpy,yCpy));
@@ -296,7 +700,152 @@ public class Piece {
 				}
 			}
 		}
-	}
+	} else if ( rep2 == "wQ" || rep2 == "bQ" ){		//WHITE AND BLACK QUEEN
+		if( mvmnt == "up" ){
+				yCpy = y3;
+				xCpy = x3;
+				yCpy -= 1;
+				while( yCpy != y2 && yCpy > 0){ //loop through each diagonal space,between points,checking if a piece is there
+					tmp = brd.findPiece(intCordToString(xCpy,yCpy));
+					if( tmp != null ){
+						flag = true;   //case a piece is found on the path
+					}
+					yCpy -= 1;
+				}
+
+		} else if ( mvmnt == "down" ){
+				yCpy = y3;
+				xCpy = x3;
+				yCpy += 1;
+				while( yCpy != y2 && yCpy > 0){ //loop through each diagonal space,between points,checking if a piece is there
+					tmp = brd.findPiece(intCordToString(xCpy,yCpy));
+					if( tmp != null ){
+						flag = true;   //case a piece is found on the path
+					}
+					yCpy += 1;
+				}
+		} else if ( mvmnt == "left" ){
+				yCpy = y3;
+				xCpy = x3;
+				xCpy += 1;
+				while( xCpy != x2 && xCpy > 0){ //loop through each diagonal space,between points,checking if a piece is there
+					tmp = brd.findPiece(intCordToString(xCpy,yCpy));
+					if( tmp != null ){
+						flag = true;   //case a piece is found on the path
+					}
+					xCpy += 1;
+				}
+			
+		} else if ( mvmnt == "right" ){
+				yCpy = y3;
+				xCpy = x3;
+				xCpy -= 1;
+				while( xCpy != x2 && xCpy > 0){ //loop through each diagonal space,between points,checking if a piece is there
+					tmp = brd.findPiece(intCordToString(xCpy,yCpy));
+					if( tmp != null ){
+						flag = true;   //case a piece is found on the path
+					}
+					xCpy -= 1;
+				}
+		} else if( mvmnt == "upLeft"){  //check case for moving up left		
+				while( xCpy != x2 && yCpy > 0){ //loop through each diagonal space,between points,checking if a piece is there
+					tmp = brd.findPiece(intCordToString(xCpy,yCpy));
+					if( tmp != null ){
+						flag = true;   //case a piece is found on the path
+					}
+					xCpy += 1;
+					yCpy -= 1;
+				}
+			} else if( mvmnt == "upRight" ){//check from a different angle (case for moving up right)
+				xCpy = x3;
+				yCpy = y3;
+				xCpy -= 1;
+				yCpy -= 1;				
+				while( xCpy != x2 && yCpy > 0){ //loop through each diagonal space,between points,checking if a piece is there
+					tmp = brd.findPiece(intCordToString(xCpy,yCpy));
+					if( tmp != null ){
+						flag = true;   //case a piece is found on the path
+					}
+					xCpy -= 1;
+					yCpy -= 1;
+				}
+			} else if( mvmnt == "downRight" ){//check from a different angle (case for moving down right)
+				xCpy = x3;
+				yCpy = y3;
+				xCpy -= 1;
+				yCpy += 1;
+				while( xCpy != x2 && yCpy > 0){ //loop through each diagonal space,between points,checking if a piece is there
+					tmp = brd.findPiece(intCordToString(xCpy,yCpy));
+					if( tmp != null ){
+						flag = true;   //case a piece is found on the path
+					}
+					xCpy -= 1;
+					yCpy += 1;
+				}				
+			} else if( mvmnt == "downLeft" ){//check from a different angle (case for moving down left)
+				xCpy = x3;
+				yCpy = y3;
+				xCpy += 1;
+				yCpy += 1;
+				while( xCpy != x2 && yCpy > 0){ //loop through each diagonal space,between points,checking if a piece is there
+					tmp = brd.findPiece(intCordToString(xCpy,yCpy));
+					if( tmp != null ){
+						flag = true;   //case a piece is found on the path
+					}
+					xCpy += 1;
+					yCpy += 1;
+				}
+			}
+
+	} else if ( rep2 == "wR" || rep2 == "bR" ){
+			if( mvmnt == "up" ){
+					yCpy = y3;
+					xCpy = x3;
+					yCpy -= 1;
+					while( yCpy != y2 && yCpy > 0){ //loop through each diagonal space,between points,checking if a piece is there
+						tmp = brd.findPiece(intCordToString(xCpy,yCpy));
+						if( tmp != null ){
+							flag = true;   //case a piece is found on the path
+						}
+						yCpy -= 1;
+					}
+
+			} else if ( mvmnt == "down" ){
+					yCpy = y3;
+					xCpy = x3;
+					yCpy += 1;
+					while( yCpy != y2 && yCpy > 0){ //loop through each diagonal space,between points,checking if a piece is there
+						tmp = brd.findPiece(intCordToString(xCpy,yCpy));
+						if( tmp != null ){
+							flag = true;   //case a piece is found on the path
+						}
+						yCpy += 1;
+					}
+			} else if ( mvmnt == "left" ){
+					yCpy = y3;
+					xCpy = x3;
+					xCpy += 1;
+					while( xCpy != x2 && xCpy > 0){ //loop through each diagonal space,between points,checking if a piece is there
+						tmp = brd.findPiece(intCordToString(xCpy,yCpy));
+						if( tmp != null ){
+							flag = true;   //case a piece is found on the path
+						}
+						xCpy += 1;
+					}
+				
+			} else if ( mvmnt == "right" ){
+					yCpy = y3;
+					xCpy = x3;
+					xCpy -= 1;
+					while( xCpy != x2 && xCpy > 0){ //loop through each diagonal space,between points,checking if a piece is there
+						tmp = brd.findPiece(intCordToString(xCpy,yCpy));
+						if( tmp != null ){
+							flag = true;   //case a piece is found on the path
+						}
+						xCpy -= 1;
+					}		
+		}
+	} //end of white and black rock
 
 		return flag;
 	}
