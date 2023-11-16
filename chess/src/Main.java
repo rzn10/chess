@@ -14,7 +14,7 @@ public class Main {
         Scanner scnr = new Scanner(System.in);
 
         Game myGame = new Game();
-        myGame.brd.printPieces();
+        //myGame.brd.printPieces();
         myGame.brd.printField();
 
 
@@ -25,13 +25,13 @@ public class Main {
             // false - white
             // true - black
             if(!myGame.turn){
-                System.out.print("White's turn. Please enter a move: ");
+                //System.out.print("White's turn. Please enter a move: ");
                 ch0 = scnr.next();
                 ch1 = scnr.next();
                 myGame.brd.findPiece(ch0).move(ch1); //Move from ch0 to ch1 (needs exception testing)
                 myGame.nextTurn();
             } else if(myGame.turn){
-                System.out.print("Black's turn. Please enter a move: ");
+                //System.out.print("Black's turn. Please enter a move: ");
                 ch0 = scnr.next();
                 ch1 = scnr.next();
                 myGame.brd.findPiece(ch0).move(ch1); //Move from ch0 to ch1 (needs exception testing)
@@ -39,7 +39,7 @@ public class Main {
             }
 
         //print field
-        myGame.brd.printPieces();
+        //myGame.brd.printPieces();
         myGame.brd.printField();
         }
         
