@@ -40,8 +40,8 @@ public class Piece {
 //returns: boolean represnting if the piece can move to the pisition or not	
 	public boolean canMove(int x, int y){
 		boolean flag = false;
-		System.out.print("PIECE: ATTEMPTING MOVE: " + this.x + ", " + this.y + " to ");
-		System.out.println(x + ", " + y);
+		//System.out.print("PIECE: ATTEMPTING MOVE: " + this.x + ", " + this.y + " to ");
+		//System.out.println(x + ", " + y);
 
 		switch( this.rep ){
 			//CASE : WHITE AND BLACK PAWNS
@@ -447,7 +447,41 @@ public class Piece {
 						}
 					}
 				break;
+
+				case "wN":
+					if( isInMovesArray(this.x,this.y,x,y,rep) ){
+						flag = true;
+					} else {
+						System.out.println("Error attempting to move!");
+					}
+				break;
+
+				case "bN":
+					if( isInMovesArray(this.x,this.y,x,y,rep) ){
+						flag = true;
+					} else {
+						System.out.println("Error attempting to move!");
+					}
+				break;
+
+				case "wK":
+					if( isInMovesArray(this.x,this.y,x,y,rep) ){
+						flag = true;
+					} else {
+						System.out.println("Error attempting to move!");
+					}
+				break;
+
+				case "bK":
+					if( isInMovesArray(this.x,this.y,x,y,rep) ){
+						flag = true;
+					} else {
+						System.out.println("Error attempting to move!");
+					}
+				break;
+
 			default:
+					System.out.println("canMove() ERROR: INVALID PIECE...");
 		}
 
 		return flag;
@@ -623,6 +657,88 @@ public class Piece {
 				}
 			break;
 
+			case "wN":
+				if( x3 == x2 - 2 && y3 == y2 + 1 ){ 		//up left
+					flag = true;
+				} else if ( x3 == x2 - 1 && y3 == y2 + 2 ){ //up left
+					flag = true;
+				} else if ( x3 == x2 - 2 && y3 == y2 - 1 ){ //down left
+					flag = true;
+				} else if ( x3 == x2 - 1 && y3 == y2 - 2 ){	//down left
+					flag = true;
+				} else if ( x3 == x2 + 1 && y3 == y2 + 2 ){ //up right
+					flag = true;
+				} else if ( x3 == x2 + 2 && y3 == y2 + 1 ){ //up right
+					flag = true;
+				} else if ( x3 == x2 + 2 && y3 == y2 - 1 ){ //down right
+					flag = true;
+				} else if ( x3 == x2 + 1 && y3 == y2 - 2 ){ //down right
+					flag = true;
+				}
+
+			break;
+
+			case "bN":
+				if( x3 == x2 - 2 && y3 == y2 + 1 ){ 		//up left
+					flag = true;
+				} else if ( x3 == x2 - 1 && y3 == y2 + 2 ){ //up left
+					flag = true;
+				} else if ( x3 == x2 - 2 && y3 == y2 - 1 ){ //down left
+					flag = true;
+				} else if ( x3 == x2 - 1 && y3 == y2 - 2 ){	//down left
+					flag = true;
+				} else if ( x3 == x2 + 1 && y3 == y2 + 2 ){ //up right
+					flag = true;
+				} else if ( x3 == x2 + 2 && y3 == y2 + 1 ){ //up right
+					flag = true;
+				} else if ( x3 == x2 + 2 && y3 == y2 - 1 ){ //down right
+					flag = true;
+				} else if ( x3 == x2 + 1 && y3 == y2 - 2 ){ //down right
+					flag = true;
+				}			
+			break;
+
+			//CASE WHITE AND BLACK KING 
+			//can only move one space adjacent to its current space
+			case "wK":
+				if( x3 == x2 - 1 && y3 == y2 + 1 ){			//up left
+					flag = true;
+				} else if ( x3 == x2 - 1 && y3 == y2 ){ 	//left
+					flag = true;
+				} else if ( x3 == x2 - 1 && y3 == y2 - 1 ){ //down left
+					flag = true;
+				} else if ( x3 == x2 && y3 == y2 + 1 ){		//up
+					flag = true;
+				} else if ( x3 == x2 && y3 == y2 - 1 ){		//down
+					flag = true;
+				} else if ( x3 == x2 + 1 && y3 == y2 + 1){	//up right
+					flag = true;
+				} else if ( x3 == x2 + 1 && y3 == y2 ){		//right
+					flag = true;
+				} else if ( x3 == x2 + 1 && y3 == y2 - 1 ){	//down right
+					flag = true;
+				}
+			break;
+
+			case "bK":
+				if( x3 == x2 - 1 && y3 == y2 + 1 ){			//up left
+					flag = true;
+				} else if ( x3 == x2 - 1 && y3 == y2 ){ 	//left
+					flag = true;
+				} else if ( x3 == x2 - 1 && y3 == y2 - 1 ){ //down left
+					flag = true;
+				} else if ( x3 == x2 && y3 == y2 + 1 ){		//up
+					flag = true;
+				} else if ( x3 == x2 && y3 == y2 - 1 ){		//down
+					flag = true;
+				} else if ( x3 == x2 + 1 && y3 == y2 + 1){	//up right
+					flag = true;
+				} else if ( x3 == x2 + 1 && y3 == y2 ){		//right
+					flag = true;
+				} else if ( x3 == x2 + 1 && y3 == y2 - 1 ){	//down right
+					flag = true;
+				}
+			break;
 
 			default:
 				System.out.print("isInMovesArray error! string rep2 not recognized.");
@@ -796,7 +912,7 @@ public class Piece {
 					yCpy += 1;
 				}
 			}
-
+	//end of white and black queen
 	} else if ( rep2 == "wR" || rep2 == "bR" ){
 			if( mvmnt == "up" ){
 					yCpy = y3;
@@ -844,8 +960,9 @@ public class Piece {
 						}
 						xCpy -= 1;
 					}		
+				}
 		}
-	} //end of white and black rock
+	//end of white and black rock
 
 		return flag;
 	}

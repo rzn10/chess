@@ -16,8 +16,8 @@ import java.util.*;
 
 public class Game {
 	public boolean turn;	//Game's access to piece control is based off the turn
-			//   false - white
-			//   true - black
+							//   false - white
+							//   true - black
 
 	public static Board brd;
 	private static final int ROWS = 8;
@@ -61,18 +61,17 @@ public class Game {
 	 * returns: true if the piece can move there, false if not
 	 */
 	public static boolean move(JLabel a, JLabel b){
-		//brd.findPiece(getSquareCordinate(a)).move(getSquareCordinate(b));
 		boolean flag = false;
 		String cordA = getSquareCordinate(a);
 		String cordB = getSquareCordinate(b);
-		System.out.println("CORDINATE A: " + cordA);
-		System.out.println("CORDINATE B: " + cordB);
+		//System.out.println("CORDINATE A: " + cordA);
+		//System.out.println("CORDINATE B: " + cordB);
 		Piece tmp = brd.findPiece(cordA);	//tmp now holds cordinate A's Piece object
 
 		
 		int x1 = (int)(cordB.charAt(0))-64;
 		int y1 = ((int)(cordB.charAt(1))-48);
-		System.out.println("GAME: ATTEMPTING TO MOVE TO " + x1 + "," + y1);
+		//System.out.println("GAME: ATTEMPTING TO MOVE TO " + x1 + "," + y1);
 		if( tmp.canMove(x1, y1) ){
 			brd.move(cordA,cordB);
 			flag = true;
