@@ -3,14 +3,18 @@ import utility.Board;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class Piece {
-	protected boolean white;  //team of the piece
+	protected boolean white;  	//team of the piece
 	protected boolean alive;	//status of the piece
 	protected int x;			//x position of the piece
 	protected int y;			//y position of the piece
 	public String rep;			//two characters representing the different pieces
-	int moveCount;				//represents how many times the piece has moved
+	public int moveCount;		//represents how many times the piece has moved
 	Board brd;					//access to the Board
+	public boolean castled;		//representation if king has castled or not
+	public boolean castledRight;//representation of king's castling direction
+	public boolean castledLeft; //representation of king's castling direction
 
 //constructor
 //sets initial position
@@ -25,6 +29,9 @@ public class Piece {
 		this.rep = r;
 		this.moveCount = 0;
 		this.brd = brd;
+		this.castled = false;
+		this.castledLeft = false;
+		this.castledRight = false;
 	}
 
 	//converts integer cordinates to string cordinates
@@ -37,7 +44,7 @@ public class Piece {
 
 //canMove
 //recieves: 2 dimensional int array representing the piece's position
-//returns: boolean represnting if the piece can move to the pisition or not	
+//returns: boolean represnting if the piece can move to the position or not	
 	public boolean canMove(int x, int y){
 		boolean flag = false;
 		//System.out.print("PIECE: ATTEMPTING MOVE: " + this.x + ", " + this.y + " to ");
@@ -60,14 +67,14 @@ public class Piece {
 					} else if ( ((this.x+1) == x) && ((this.y+1) == y) ){  //diagonal move case up and right
 						//check if a piece is in the position we are moving to
 						Piece tmp = brd.findPiece(intCordToString(x, y));
-						if( tmp != null){    //if there is a piece there, then it can move and kill it
+						if( tmp != null && (tmp.getColor() != this.getColor())){    //if there is an enemy piece there, then it can move and kill it
 							flag=true;
 							tmp.die();
 						}
 					} else if ( ((this.x-1) == x) && ((this.y+1) == y) ){  //diagonal move case up and left
 						//check if a piece is in the position we are moving to
 						Piece tmp = brd.findPiece(intCordToString(x, y));
-						if( tmp != null){    //if there is a piece there, then it can move and kill it
+						if( tmp != null && (tmp.getColor() != this.getColor())){//if there is an enemy piece there, then it can move and kill it
 							flag=true;
 							tmp.die();
 						}
@@ -82,14 +89,14 @@ public class Piece {
 					} else if ( ((this.x+1) == x) && ((this.y+1) == y) ){  //diagonal move case up and right
 						//check if a piece is in the position we are moving to
 						Piece tmp = brd.findPiece(intCordToString(x, y));
-						if( tmp != null){    //if there is a piece there, then it can move and kill it
+						if( tmp != null  && (tmp.getColor() != this.getColor())){//if there is an enemy piece there, then it can move and kill it
 							flag=true;
 							tmp.die();
 						}
 					} else if ( ((this.x-1) == x) && ((this.y+1) == y) ){  //diagonal move case up and left
 						//check if a piece is in the position we are moving to
 						Piece tmp = brd.findPiece(intCordToString(x, y));
-						if( tmp != null){    //if there is a piece there, then it can move and kill it
+						if( tmp != null  && (tmp.getColor() != this.getColor())){//if there is an enemy piece there, then it can move and kill it
 							flag=true;
 							tmp.die();
 						}
@@ -108,14 +115,14 @@ public class Piece {
 					} else if ( ((this.x+1) == x) && ((this.y-1) == y) ){  //diagonal move case down and right
 						//check if a piece is in the position we are moving to
 						Piece tmp = brd.findPiece(intCordToString(x, y));
-						if( tmp != null){    //if there is a piece there, then it can move and kill it
+						if( tmp != null && (tmp.getColor() != this.getColor())){    //if there is an enemy piece there, then it can move and kill it
 							flag=true;
 							tmp.die();
 						}
 					} else if ( ((this.x-1) == x) && ((this.y-1) == y) ){  //diagonal move case down and left
 						//check if a piece is in the position we are moving to
 						Piece tmp = brd.findPiece(intCordToString(x, y));
-						if( tmp != null){    //if there is a piece there, then it can move and kill it
+						if( tmp != null && (tmp.getColor() != this.getColor())){    //if there is an enemy piece there, then it can move and kill it
 							flag=true;
 							tmp.die();
 						}
@@ -467,6 +474,28 @@ public class Piece {
 				case "wK":
 					if( isInMovesArray(this.x,this.y,x,y,rep) ){
 						flag = true;
+					} else if ( x == 8 && y == 1 ){	//check if castling to the right
+						if( this.moveCount == 0 ){  //if king hasnt moved yet
+							if (brd.findPiece("H1").moveCount == 0){ //if right rook hasnt moved yet
+								//if no piece is between eachother
+								if( !pieceIsInPath(this.x, this.y, x, y, "wK", "castleRight")){
+									flag = true;
+									castled = true;
+									castledRight = true;
+								}
+							}
+						}
+					} else if ( x == 1 && y == 1 ){	//check if castling to the left
+						if( this.moveCount == 0 ){  //if king hasnt moved yet
+							if (brd.findPiece("A1").moveCount == 0){ //if left rook hasnt moved yet
+								//if no piece is between eachother
+								if( !pieceIsInPath(this.x, this.y, x, y, "wK", "castleLeft")){
+									flag = true;
+									castled = true;
+									castledLeft = true;
+								}
+							}
+						}
 					} else {
 						System.out.println("Error attempting to move!");
 					}
@@ -475,6 +504,28 @@ public class Piece {
 				case "bK":
 					if( isInMovesArray(this.x,this.y,x,y,rep) ){
 						flag = true;
+					} else if ( x == 8 && y == 8 ){	//check if castling to the right
+						if( this.moveCount == 0 ){  //if king hasnt moved yet
+							if (brd.findPiece("H8").moveCount == 0){ //if right rook hasnt moved yet
+								//if no piece is between eachother
+								if( !pieceIsInPath(this.x, this.y, x, y, "bK", "castleRight")){
+									flag = true;
+									castled = true;
+									castledRight = true;
+								}
+							}
+						}
+					} else if ( x == 1 && y == 8 ){	//check if castling to the left
+						if( this.moveCount == 0 ){  //if king hasnt moved yet
+							if (brd.findPiece("A8").moveCount == 0){ //if left rook hasnt moved yet
+								//if no piece is between eachother
+								if( !pieceIsInPath(this.x, this.y, x, y, "bK", "castleLeft")){
+									flag = true;
+									castled = true;
+									castledLeft = true;
+								}
+							}
+						}
 					} else {
 						System.out.println("Error attempting to move!");
 					}
@@ -961,13 +1012,37 @@ public class Piece {
 						xCpy -= 1;
 					}		
 				}
+		//end of white and black rock
+		} else if ( rep2 == "wK" || rep2 == "bK"){
+			if( mvmnt == "castleRight" ){
+				yCpy = y3;
+				xCpy = x3;
+				xCpy -= 1;
+				while( xCpy != x2 && xCpy > 0){ //loop through each diagonal space,between points,checking if a piece is there
+					tmp = brd.findPiece(intCordToString(xCpy,yCpy));
+					if( tmp != null ){
+						flag = true;   //case a piece is found on the path
+					}
+					xCpy -= 1;
+				}				
+			} else if ( mvmnt == "castleLeft" ){
+				yCpy = y3;
+				xCpy = x3;
+				xCpy += 1;
+				while( xCpy != x2 && xCpy > 0){ //loop through each diagonal space,between points,checking if a piece is there
+					tmp = brd.findPiece(intCordToString(xCpy,yCpy));
+					if( tmp != null ){
+						flag = true;   //case a piece is found on the path
+					}
+					xCpy += 1;
+				}
+			}
 		}
-	//end of white and black rock
 
 		return flag;
 	}
 
-	//move changes the piece's position
+//move changes the piece's position
 //description: checks if a piece is already in the position it is moving to
 //				if a piece is there, kill it
 //recieves: String representing the coordinate to move to

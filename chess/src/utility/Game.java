@@ -34,8 +34,8 @@ public class Game {
     };
 
     private static final String[] STRING_PIECES = {
-        "wK", "wQ", "wR", "wB", "wN", "wP",
-        "bK", "bQ", "bR", "bB", "bN", "bP"
+        "bK", "bQ", "bR", "bB", "bN", "bP",
+		"wK", "wQ", "wR", "wB", "wN", "wP"
     };
 
 	// Custom lighter colors for the board
@@ -60,24 +60,61 @@ public class Game {
 	 * 				once the piece of a is found, test if it can move to b or not
 	 * returns: true if the piece can move there, false if not
 	 */
-	public static boolean move(JLabel a, JLabel b){
+	public static boolean move(JLabel a, JLabel b) {
 		boolean flag = false;
 		String cordA = getSquareCordinate(a);
 		String cordB = getSquareCordinate(b);
 		//System.out.println("CORDINATE A: " + cordA);
 		//System.out.println("CORDINATE B: " + cordB);
 		Piece tmp = brd.findPiece(cordA);	//tmp now holds cordinate A's Piece object
+		Piece tmp1 = brd.findPiece(cordB);
+		//check if a castle attempt was made
+
 
 		
 		int x1 = (int)(cordB.charAt(0))-64;
 		int y1 = ((int)(cordB.charAt(1))-48);
 		//System.out.println("GAME: ATTEMPTING TO MOVE TO " + x1 + "," + y1);
-		if( tmp.canMove(x1, y1) ){
-			brd.move(cordA,cordB);
-			flag = true;
-		}
-		else
-			System.out.println("Cant move there!");
+			if( tmp.canMove(x1, y1) ){
+				if( !tmp.castled ){
+					if( tmp1 == null ){		//friendly fire check
+						brd.move(cordA,cordB);
+						flag = true;
+					} else if ( tmp1 != null ){
+						if( tmp1.getColor() != tmp.getColor() ){ //move there is the colors are different
+							brd.move(cordA,cordB);
+							flag = true;							
+						}
+					}
+				} else if ( tmp.getColor() && tmp.castledRight && tmp.moveCount == 0 ){ //case if white king castled right
+					flag = true;
+					brd.move("E1", "G1");		//move king to 7,1
+					brd.move("H1", "F1");		//move rock to 6,1
+					tmp.castledRight = false; 			//reset
+					tmp.castled = false;				//reset
+				} else if ( tmp.getColor() && tmp.castledLeft && tmp.moveCount == 0 ){ //case if white king castled left
+					flag = true;
+					brd.move("E1", "C1");		//move king to 7,1
+					brd.move("A1", "D1");		//move rock to 6,1
+					tmp.castledLeft = false; 			//reset
+					tmp.castled = false;				//reset
+				} else if ( !tmp.getColor() && tmp.castledRight && tmp.moveCount == 0 ){ //case if black king castled right
+					flag = true;
+					brd.move("E8", "G8");		
+					brd.move("H8", "F8");		
+					tmp.castledRight = false; 			//reset
+					tmp.castled = false;				//reset
+				} else if ( !tmp.getColor() && tmp.castledLeft && tmp.moveCount == 0 ){ //case if black king castled left
+					flag = true;
+					brd.move("E8", "C8");		
+					brd.move("A8", "D8");		
+					tmp.castledLeft = false; 			//reset
+					tmp.castled = false;				//reset
+				}
+				
+			}
+			else
+				System.out.println("Cant move there!");
 	
 		brd.printField();
 		return flag;
@@ -162,12 +199,67 @@ public class Game {
 					}
                 } else if ( curr.getName() != ""){ //otherwise if the current move is to another piece
 					if( move(selected,curr) ){  //if the piece can move there
-                    	curr.setText(selected.getText());   //move selected piece to current square
-                    	curr.setName(selected.getName());
-                    	selected.setText("");
-						selected.setName("");
-                    	selected.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-                    	selected = null;
+						if( curr.getName() != "wK" && curr.getName() != "wR"
+							&& (curr.getName() != "bK" && curr.getName() != "bR") ){
+								curr.setText(selected.getText());   //move selected piece to current square
+								curr.setName(selected.getName());
+								selected.setText("");
+								selected.setName("");
+								selected.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+								selected = null;
+						} else if ( selected.getName() == "wK" && curr.getName() == "wR" ){ //check if white king castling
+							if( cordMap.get(curr).equals("H1") ){	//case castling right
+								gameBoardSquares[5][7].setName("wR");
+								gameBoardSquares[5][7].setText("\u2656");
+								gameBoardSquares[6][7].setName("wK");
+								gameBoardSquares[6][7].setText("\u2654");
+								selected.setText("");
+								selected.setName("");
+								selected.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+								selected = null;
+								curr.setText("");
+								curr.setName("");
+								curr = null;
+							} else if ( cordMap.get(curr).equals("A1") ){ //case castling left
+								gameBoardSquares[3][7].setName("wR");
+								gameBoardSquares[3][7].setText("\u2656");
+								gameBoardSquares[2][7].setName("wK");
+								gameBoardSquares[2][7].setText("\u2654");
+								selected.setText("");
+								selected.setName("");
+								selected.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+								selected = null;
+								curr.setText("");
+								curr.setName("");
+								curr = null;								
+							}
+						} else if ( selected.getName() == "bK" && curr.getName() == "bR" ){ //check if black king castling
+							if( cordMap.get(curr).equals("H8") ){	//case castling right
+								gameBoardSquares[5][0].setName("bR");
+								gameBoardSquares[5][0].setText("\u265C");
+								gameBoardSquares[6][0].setName("bK");
+								gameBoardSquares[6][0].setText("\u265A");
+								selected.setText("");
+								selected.setName("");
+								selected.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+								selected = null;
+								curr.setText("");
+								curr.setName("");
+								curr = null;
+							} else if ( cordMap.get(curr).equals("A8") ){ //case castling left
+								gameBoardSquares[3][0].setName("bR");
+								gameBoardSquares[3][0].setText("\u265C");
+								gameBoardSquares[2][0].setName("bK");
+								gameBoardSquares[2][0].setText("\u265A");
+								selected.setText("");
+								selected.setName("");
+								selected.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+								selected = null;
+								curr.setText("");
+								curr.setName("");
+								curr = null;								
+							}
+						}
 					} else {	//if the piece cant move there
                     	selected.setBorder(BorderFactory.createLineBorder(Color.GRAY));
                     	selected = null;
@@ -268,8 +360,8 @@ public class Game {
 						square.addMouseListener(new MouseAdapter() {    //mouse listener for JLabel
 							@Override
 							public void mouseClicked(MouseEvent e) {
-								handleMouseClick(square);
-							}
+									handleMouseClick(square);
+								}
 						});
 						gameBoardSquares[col][row] = square;    //add square to JLabel 2-D array
 						cordMap.put(square, getStringCordinate(col, 7-row)); //add square and coordinates to a hashmap

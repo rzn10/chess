@@ -57,22 +57,22 @@ public class Board {
 				new Pawn(true, 8, 2, "wp", this)
 			},
 			{   //create all black pieces
-				new Rock(true, 1, 8, "bR", this),
-			    new Knight(true, 2, 8, "bN", this),
-				new Bishop(true, 3, 8, "bB", this),
-				new Queen(true, 4, 8, "bQ", this),
-				new King(true, 5, 8, "bK", this),
-				new Bishop(true, 6, 8, "bB", this),
-				new Knight(true, 7, 8, "bN", this),
-				new Rock(true, 8, 8, "bR", this),
-				new Pawn(true, 1, 7, "bp", this),
-				new Pawn(true, 2, 7, "bp", this),
-				new Pawn(true, 3, 7, "bp", this),
-				new Pawn(true, 4, 7, "bp", this),
-				new Pawn(true, 5, 7, "bp", this),
-				new Pawn(true, 6, 7, "bp", this),
-				new Pawn(true, 7, 7, "bp", this),
-				new Pawn(true, 8, 7, "bp", this)
+				new Rock(false, 1, 8, "bR", this),
+			    new Knight(false, 2, 8, "bN", this),
+				new Bishop(false, 3, 8, "bB", this),
+				new Queen(false, 4, 8, "bQ", this),
+				new King(false, 5, 8, "bK", this),
+				new Bishop(false, 6, 8, "bB", this),
+				new Knight(false, 7, 8, "bN", this),
+				new Rock(false, 8, 8, "bR", this),
+				new Pawn(false, 1, 7, "bp", this),
+				new Pawn(false, 2, 7, "bp", this),
+				new Pawn(false, 3, 7, "bp", this),
+				new Pawn(false, 4, 7, "bp", this),
+				new Pawn(false, 5, 7, "bp", this),
+				new Pawn(false, 6, 7, "bp", this),
+				new Pawn(false, 7, 7, "bp", this),
+				new Pawn(false, 8, 7, "bp", this)
 			}
 		};
 	}
@@ -96,16 +96,23 @@ public class Board {
 //				then calls the canMove() function on it
 //	
 //returns: true if ch can move there, false otherwise
-public Boolean canMove(String ch, String ch1){
+public Boolean canMove(String ch, String ch1) {
 	boolean flag = false;
 	Piece tmp = findPiece(ch);
+	Piece tmp1 = findPiece(ch1);
 	if( tmp == null )
 		System.out.println("canMove ERROR! piece is null.");
 
-	int x1 = 65-(int)ch1.charAt(0);
-	int y1 = 59-(int)ch1.charAt(0);
-	System.out.println(58-(int)ch1.charAt(1));	
-	flag = tmp.canMove(x1,y1);
+	int x1 = (int)(ch1.charAt(0))-64;
+	int y1 = ((int)(ch1.charAt(1))-48);
+	//System.out.println(58-(int)ch1.charAt(1));
+	if( tmp1 == null )
+		flag = tmp.canMove(x1,y1);
+	else if ( tmp1 != null ){	//check for friendly fire
+		if(  (tmp1.getColor() != tmp.getColor())){
+			flag = tmp.canMove(x1,y1);
+		}
+	}
 	if( !flag )
 		System.out.println("Cant move there!");
 
@@ -125,15 +132,14 @@ public void move(String ch, String ch1){
 	//System.out.println("Moving to: " + x + " " + y);
 
 	Piece tmp1 = findPiece(ch1);
-	if( tmp1 != null ){
+	Piece tmp = findPiece(ch);
+	if( ( tmp1 != null && tmp != null ) && (tmp1.getColor() != tmp.getColor()) ){
 		tmp1.die();
 	}
-	Piece tmp = findPiece(ch);
+	
 	if( tmp != null ){
 		tmp.move(ch1);
 	}
-	
-
 }
 
 //findPiece
