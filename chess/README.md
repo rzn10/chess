@@ -47,7 +47,3 @@ Tower:
 
 Knight:
   -Can only skip over pieces and onto opposite colored squares from what it is currently on.
-
-
-
-

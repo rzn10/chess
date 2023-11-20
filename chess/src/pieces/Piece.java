@@ -1,7 +1,5 @@
 package pieces;
 import utility.Board;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class Piece {

@@ -1,11 +1,3 @@
-import pieces.Bishop;
-import pieces.King;
-import pieces.Knight;
-import pieces.Pawn;
-import pieces.Piece;
-import pieces.Queen;
-import pieces.Rock;
-import utility.Board;
 import utility.Game;
 import java.util.Scanner;
 
@@ -15,7 +7,7 @@ public class Main {
 
         Game myGame = new Game();
         //myGame.brd.printPieces();
-        myGame.brd.printField();
+        Game.brd.printField();
 
 
         String ch0;    //String ch0 represents the position of the piece to be moved from
@@ -40,7 +32,8 @@ public class Main {
 
         //print field
         //myGame.brd.printPieces();
-        myGame.brd.printField();
+        Game.brd.printField();
+        scnr.close();
         }
         
     }

@@ -5,14 +5,7 @@ import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
 import java.awt.*;
-import pieces.Bishop;
-import pieces.King;
-import pieces.Knight;
-import pieces.Pawn;
-import pieces.Queen;
-import pieces.Rock;
 import pieces.Piece;
-import java.util.*;
 
 public class Game {
 	public boolean turn;	//Game's access to piece control is based off the turn
@@ -199,8 +192,8 @@ public class Game {
 					}
                 } else if ( curr.getName() != ""){ //otherwise if the current move is to another piece
 					if( move(selected,curr) ){  //if the piece can move there
-						if( curr.getName() != "wK" && curr.getName() != "wR"
-							&& (curr.getName() != "bK" && curr.getName() != "bR") ){
+						if( selected.getName() != "wK" && curr.getName() != "wR"
+							&& (selected.getName() != "bK" && curr.getName() != "bR") ){
 								curr.setText(selected.getText());   //move selected piece to current square
 								curr.setName(selected.getName());
 								selected.setText("");

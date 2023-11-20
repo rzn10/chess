@@ -6,9 +6,6 @@ import pieces.Pawn;
 import pieces.Queen;
 import pieces.Rock;
 import pieces.Piece;
-import java.util.*;
-import javax.swing.*;
-
 
 public class Board {
 	//field represents the position of the field as a two dimensional array ;
